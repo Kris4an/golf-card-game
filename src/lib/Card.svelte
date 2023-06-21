@@ -5,6 +5,7 @@
     export let card: number;
     export let isInteractable = false;
     export let isSelected = false;
+    export let cardColor: string;
     const cards = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
     $:paintColor = (card>99 && card<299)? '#ff0000':'#000000';
     $:cursor = isInteractable? 'pointer':'default';
@@ -37,14 +38,14 @@
         height: 100%;
         border: 5px;
         border-style: solid;
-        border-color: #212f85;
+        border-color: var(--card-color);
         border-radius: 18px;
         margin: 0.5rem;
         align-self: center;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #212f85;
+        color: var(--card-color);
         font-size: 40px;
         user-select: none;
     }
@@ -67,6 +68,6 @@
         <CardPaint card={card}/>
     </div>
     {:else}
-    <div class="cardBack">⨉</div>
+    <div class="cardBack" style="--card-color: {cardColor}">⨉</div>
     {/if}
 </button>
