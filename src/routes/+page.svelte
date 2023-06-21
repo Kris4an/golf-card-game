@@ -390,9 +390,14 @@ return;
     }
     
 </script>
-
+<svelte:head>
+	<title>Golf Card Game</title>
+	<meta name="keywors" content="card game golf polska polka polish poker" />
+    <meta name="author" content="Kris4an" />
+    <meta name="description" content="A game of six card golf" />
+</svelte:head>
 <div class="mainHolder">
-    <div class="sideBar" style="width: {showMenu? "35rem":"4rem"}; --bg-color:{showMenu? "#d63b5d":"#0f6f84"}; padding-right: {showMenu? "1rem":"none"}">
+    <div class="sideBar" style="width: {showMenu? "35rem":"4rem"}; --bg-color:{showMenu? "#203b5d":"#0f6f84"}; padding-right: {showMenu? "1rem":"none"}">
         <div class="sideBarSecondHolder">
             <button class="menuButton" on:click={() => {showMenu = !showMenu}}>
                 <svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
@@ -424,7 +429,9 @@ return;
                         J = 10;
                         Q = 10.
                     </p>
+                    <p>Made by K. Hristakiev🤩🇧🇬💪</p>
                 </span>
+                
             </div>
         {/if}
     </div>
