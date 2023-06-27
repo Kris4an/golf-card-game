@@ -1,6 +1,23 @@
 <script lang='ts'>
     export let card: number;
 </script>
+<style>
+    @media only screen and (max-width: 1200px) {
+        svg {
+            scale: 0.9;
+        }
+    }
+    @media only screen and (max-width: 540px) {
+        svg {
+            scale: 0.75;
+        }
+    }
+    @media only screen and (max-width: 400px) {
+        svg {
+            scale: 0.65;
+        }
+    }
+</style>
 {#if card < 100}
     <svg width="30.65" height="35.565" version="1.1" xmlns="http://www.w3.org/2000/svg">
         <g transform="translate(389.13 -224.06)">
