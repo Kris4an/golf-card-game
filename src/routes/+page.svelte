@@ -486,15 +486,14 @@
 <div id="mainHolder">
 	<div
 		class="sideBar"
-		style="--expand: {showMenu ? '35rem' : '4rem'}; --bg-color:{showMenu ? '#203b5d' : '#0f6f84'};"
+		style="--expand: {showMenu ? '35rem' : '4rem'}; --bg-color:{showMenu ? '#203b5d' : '#0f6f84'}; --max-h: {showMenu ? 'none':'3rem'}"
 	>
 		<div class="sideBarSecondHolder">
 			<button
 				class="menuButton"
 				on:click={() => {
 					showMenu = !showMenu;
-				}}
-			>
+				}}>
 				<svg xmlns="http://www.w3.org/2000/svg" height="48" viewBox="0 -960 960 960" width="48">
 					<path
 						d="M103-212v-94h754v94H103Zm0-221v-94h754v94H103Zm0-221v-95h754v95H103Z"
@@ -507,8 +506,7 @@
 				class="menuButton"
 				on:click={() => {
 					showMenu = !showMenu;
-				}}
-			>
+				}}>
 				<b>?</b>
 			</button>
 		</div>
@@ -542,7 +540,8 @@
 						/>
 						<span>Move delay = {delay}ms</span>
 					</div>
-					<button id="resetButton"
+					<button
+						id="resetButton"
 						on:click={() => {
 							delay = 500;
 							cardColor = '#212f85';
@@ -551,7 +550,7 @@
 						}}>Reset</button
 					>
 				</div>
-				<span id="menuText"
+				<span id="menuText" 
 					>The objective is for players to reduce the value of the cards in front of them by
 					swapping them for lesser value cards. After the last round, the highest score loses the
 					game and the lowest score wins the game (see scoring below). Players can do one of the
@@ -571,78 +570,77 @@
 		{/if}
 	</div>
 	<div id="secondHolder">
-		<div class="pileHolder">
-			{#if cardDeck != undefined && cardDeck.length != 0}
-				<Card
-					card={cardDeck[cardDeck.length - 1].card}
-					isRevealed={cardDeck[cardDeck.length - 1].isRevealed}
-					isSelected={isNewCardSelected}
-					isInteractable={isTurn && revealedCards >= 2}
-					{cardColor}
-					on:click={() => {
-						if (!isTurn || revealedCards < 2) return;
-						isNewCardSelected = true;
-						isNew = true;
-						isRevealing = false;
-						cardDeck[cardDeck.length - 1].isRevealed = true;
-					}}
-				/>
-			{:else}
-				<div style="width: 143px; height: 208px;" />
-			{/if}
-			<div style="position: relative;">
-				{#if pile != undefined}
+		<div id="upperHolder">
+			<div class="pileHolder">
+				{#if cardDeck != undefined && cardDeck.length != 0}
 					<Card
-						card={pile[pile.length - 1].card}
-						isRevealed={pile[pile.length - 1].isRevealed}
-						isSelected={!isNew}
-						isInteractable={isTurn && revealedCards >= 2 && pile.length > 1 && !isNewCardSelected}
+						card={cardDeck[cardDeck.length - 1].card}
+						isRevealed={cardDeck[cardDeck.length - 1].isRevealed}
+						isSelected={isNewCardSelected}
+						isInteractable={isTurn && revealedCards >= 2}
 						{cardColor}
 						on:click={() => {
-							if (!isTurn || revealedCards < 2 || pile.length < 2 || isNewCardSelected) return;
-							isNew = false;
+							if (!isTurn || revealedCards < 2) return;
+							isNewCardSelected = true;
+							isNew = true;
 							isRevealing = false;
+							cardDeck[cardDeck.length - 1].isRevealed = true;
 						}}
 					/>
+				{:else}
+					<div style="width: 143px; height: 208px;" />
 				{/if}
-				<button
-					class="place"
-					disabled={!isTurn || isRevealing || !isNew}
-					lang="ts"
-					on:click={() => placeCard()}
-					style="--card-color: {cardColor}">Place card</button
-				>
-			</div>
-		</div>
-		<div
-			class="holder"
-			style="align-items: center; justify-content: space-around; flex-direction: column"
-		>
-			<div class="cardHolder">
-				{#if p2 != undefined}
-					{#each p2 as card (p2.indexOf(card))}
-						<Card {...card} {cardColor} />
-					{/each}
-				{/if}
-			</div>
-			<div class="cardHolder">
-				{#if p1 != undefined}
-					{#each p1 as card (p1.indexOf(card))}
+				<div style="position: relative;">
+					{#if pile != undefined}
 						<Card
-							{...card}
-							on:click={() => handlePlayerCardClick(p1.indexOf(card))}
-							isInteractable={isTurn}
+							card={pile[pile.length - 1].card}
+							isRevealed={pile[pile.length - 1].isRevealed}
+							isSelected={!isNew}
+							isInteractable={isTurn && revealedCards >= 2 && pile.length > 1 && !isNewCardSelected}
 							{cardColor}
+							on:click={() => {
+								if (!isTurn || revealedCards < 2 || pile.length < 2 || isNewCardSelected) return;
+								isNew = false;
+								isRevealing = false;
+							}}
 						/>
-					{/each}
-				{/if}
+					{/if}
+					<button
+						class="place"
+						disabled={!isTurn || isRevealing || !isNew}
+						lang="ts"
+						on:click={() => placeCard()}
+						style="--card-color: {cardColor}">Place card</button
+					>
+				</div>
+			</div>
+			<div id="midHolder">
+				<div class="cardHolder">
+					{#if p2 != undefined}
+						{#each p2 as card (p2.indexOf(card))}
+							<Card {...card} {cardColor} />
+						{/each}
+					{/if}
+				</div>
+				<div class="cardHolder">
+					{#if p1 != undefined}
+						{#each p1 as card (p1.indexOf(card))}
+							<Card
+								{...card}
+								on:click={() => handlePlayerCardClick(p1.indexOf(card))}
+								isInteractable={isTurn}
+								{cardColor}
+							/>
+						{/each}
+					{/if}
+				</div>
 			</div>
 		</div>
-		<div
-			class="holder"
-			style="flex-direction: column; justify-content: space-around; width: 100%; padding-left: 3rem"
-		>
-			<span class="score" style="--card-color: {cardColor}"><b>{p2Score}</b></span>
+		<div id="scoresHolder">
+			<span class="score" style="--card-color: {cardColor}">
+				<b>{p2Score}</b>
+				<span>AI</span>
+			</span>
 			<span class="instructions" style="--card-color: {cardColor}"
 				>{isTurn
 					? revealedCards >= 2
@@ -650,9 +648,12 @@
 						: revealedCards == 0
 						? 'Flip any two cards'
 						: 'Flip one more card'
-					: 'Advanced AI is thinking'}</span
-			>
-			<span class="score" style="--card-color: {cardColor}"><b>{p1Score}</b></span>
+					: 'Advanced AI is thinking'}
+			</span>
+			<span class="score" style="--card-color: {cardColor}">
+				<b>{p1Score}</b>
+				<span>You</span>
+			</span>
 		</div>
 	</div>
 </div>
@@ -682,13 +683,30 @@
 		height: 100%;
 		display: flex;
 		position: relative;
+		gap: 3rem;
 	}
-	.holder {
+	#upperHolder {
+		display: flex;
+		width: 100%;
+		align-items: center;
+	}
+	#midHolder {
 		width: 100%;
 		height: 100%;
 		display: flex;
 		flex-direction: column;
 		position: relative;
+		align-items: center;
+		justify-content: space-around;
+		gap: 3rem;
+	}
+	#scoresHolder {
+		width: 60%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		justify-content: space-around;
 	}
 	.cardHolder {
 		display: grid;
@@ -703,6 +721,8 @@
 		color: var(--card-color);
 		text-align: center;
 		border-radius: 5px;
+		display: flex;
+		flex-direction: column;
 	}
 	.instructions {
 		border: 2px var(--card-color) solid;
@@ -862,8 +882,19 @@
 			justify-content: center;
 			gap: 3rem;
 		}
+		.score {
+			width: 4rem;
+			font-size: 38px;
+		}
+		.instructions {
+			padding: 0.6rem;
+			font-size: 32px;
+		}
 	}
 	@media only screen and (max-width: 755px) {
+		.menuButton {
+			scale: 80%;
+		}
 		.sideBar {
 			height: auto;
 		}
@@ -873,6 +904,27 @@
 		}
 		#menuText {
 			padding-left: 1rem;
+		}
+		#secondHolder {
+			flex-direction: column;
+			gap: 1rem;
+		}
+		.pileHolder {
+			max-width: 20%;
+		}
+		#scoresHolder {
+			width: 100%;
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-around;
+		}
+		.score {
+			width: 3rem;
+			font-size: 30px;
+		}
+		.instructions {
+			padding: 0.3rem;
+			font-size: 22px;
 		}
 	}
 	@media only screen and (max-width: 540px) {
@@ -888,6 +940,21 @@
 			top: 150px;
 			line-height: 20px;
 			font-size: 20px;
+		}
+		.sideBar {
+			max-height: var(--max-h);
+		}
+		#secondHolder {
+			margin-top: 3rem;
+		}
+		#menuText {
+			font-size: 18px;
+		}
+		.colorSelect {
+			font-size: 18px;
+		}
+		#resetButton {
+			font-size: 18px;
 		}
 	}
 </style>
